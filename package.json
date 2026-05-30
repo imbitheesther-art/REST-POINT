@@ -1,0 +1,24 @@
+{
+  "name": "@montezuma/restpoint",
+  "version": "1.0.0",
+  "description": "Restpoint — Modern Kenyan Mortuary Management SaaS Platform",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "shared/*"
+  ],
+  "scripts": {
+    "bootstrap": "npm install",
+    "gateway:dev": "npm --workspace=@montezuma/api-gateway run dev",
+    "auth:dev": "npm --workspace=@montezuma/auth-service run dev",
+    "tenant:dev": "npm --workspace=@montezuma/tenant-service run dev",
+    "users:dev": "npm --workspace=@montezuma/users-service run dev",
+    "deceased:dev": "npm --workspace=@montezuma/deceased-service run dev",
+    "docker:up": "docker-compose up --build -d",
+    "docker:down": "docker-compose down"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

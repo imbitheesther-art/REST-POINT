@@ -1,0 +1,115 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:10.11
+    container_name: montezuma_mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpassword
+      MARIADB_DATABASE: montezuma_amortuary
+      MARIADB_USER: montezuma_user
+      MARIADB_PASSWORD: montezuma_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - montezuma_net
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  redis:
+    image: redis:7-alpine
+    container_name: montezuma_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - montezuma_net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: montezuma_rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - montezuma_net
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  api-gateway:
+    build: ./apps/api-gateway
+    container_name: montezuma_gateway
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - mariadb
+      - rabbitmq
+    networks:
+      - montezuma_net
+
+  auth-service:
+    build: ./apps/auth-service
+    container_name: montezuma_auth
+    ports:
+      - "8001:8001"
+    depends_on:
+      - redis
+      - mariadb
+    networks:
+      - montezuma_net
+
+  tenant-service:
+    build: ./apps/tenant-service
+    container_name: montezuma_tenant
+    ports:
+      - "8002:8002"
+    depends_on:
+      - redis
+      - mariadb
+    networks:
+      - montezuma_net
+
+  users-service:
+    build: ./apps/users-service
+    container_name: montezuma_users
+    ports:
+      - "8003:8003"
+    depends_on:
+      - redis
+      - mariadb
+    networks:
+      - montezuma_net
+
+  deceased-service:
+    build: ./apps/deceased-service
+    container_name: montezuma_deceased
+    ports:
+      - "8004:8004"
+    depends_on:
+      - redis
+      - mariadb
+    networks:
+      - montezuma_net
+
+networks:
+  montezuma_net:
+    driver: bridge
+
+volumes:
+  mariadb_data:

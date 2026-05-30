@@ -1,0 +1,3 @@
+/*          # Ignore everything at the root
+!BackendApi/
+!FrontendClient/
