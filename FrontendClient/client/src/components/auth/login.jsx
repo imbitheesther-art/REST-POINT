@@ -4,7 +4,7 @@ import { authApi } from '../../api/authApi';
 
 /* ═══════════════════════════════════════════════════════════════
    REST POINT — Login Page
-   Design System: Matches Landing Page (Cinematic dark luxury)
+   Mobile Responsive · Clean · Modern
    ═══════════════════════════════════════════════════════════════ */
 
 const T = {
@@ -38,10 +38,6 @@ const I = {
   arr:    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>,
   mail:   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>,
   lock:   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
-  shield: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
-  cloud:  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>,
-  users:  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 15h-6"/></svg>,
-  log:    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>,
 };
 
 function LoginPage() {
@@ -51,7 +47,6 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
-  const [currentTime, setCurrentTime] = useState('');
   const [showAuthPopup, setShowAuthPopup] = useState(false);
   const [authPopupData, setAuthPopupData] = useState({ success: false, message: '' });
   const [navScrolled, setNavScrolled] = useState(false);
@@ -60,26 +55,6 @@ function LoginPage() {
     const fn = () => setNavScrolled(window.scrollY > 20);
     window.addEventListener('scroll', fn, { passive: true });
     return () => window.removeEventListener('scroll', fn);
-  }, []);
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const timeString = now.toLocaleTimeString('en-US', {
-        hour12: true,
-        hour: '2-digit',
-        minute: '2-digit',
-      });
-      const dateString = now.toLocaleDateString('en-US', {
-        weekday: 'long',
-        month: 'long',
-        day: 'numeric',
-      });
-      setCurrentTime(`${dateString} • ${timeString}`);
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 60000);
-    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -201,6 +176,35 @@ function LoginPage() {
 
         @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
         .fade-in{animation:fadeIn .5s ease forwards;}
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+          .login-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .login-left {
+            display: none !important;
+          }
+          .login-right {
+            padding: 2rem 1.5rem !important;
+          }
+          .login-container {
+            max-width: 100% !important;
+            padding: 0 1rem !important;
+          }
+          .nav-container {
+            padding: 0 1rem !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .login-right {
+            padding: 1.5rem 1rem !important;
+          }
+          .logo-text {
+            font-size: .6rem !important;
+          }
+        }
       `}</style>
 
       {/* Navigation */}
@@ -216,7 +220,7 @@ function LoginPage() {
         transition: 'all .3s ease',
         backdropFilter: navScrolled ? 'blur(24px) saturate(1.4)' : 'none',
       }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className="nav-container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem', cursor: 'pointer' }} onClick={() => navigate('/')}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem', background: T.ga, border: `1px solid rgba(4,200,0,.2)`, borderRadius: '8px', padding: '.4rem .9rem' }}>
               <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: T.g, boxShadow: `0 0 10px ${T.g}` }} />
@@ -240,11 +244,11 @@ function LoginPage() {
         <div style={{ position: 'absolute', top: '-20%', right: '-8%', width: '600px', height: '600px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(4,200,0,.05) 0%, transparent 70%)', filter: 'blur(80px)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: '-10%', left: '10%', width: '400px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(4,200,0,.03) 0%, transparent 70%)', filter: 'blur(80px)', pointerEvents: 'none' }} />
 
-        <div style={{ maxWidth: '1100px', width: '100%', margin: '0 auto', padding: '2rem 1.75rem', position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0', borderRadius: '14px', overflow: 'hidden', border: `1px solid ${T.line}`, boxShadow: '0 40px 80px -20px rgba(0,0,0,.8)' }}>
+        <div className="login-container" style={{ maxWidth: '1100px', width: '100%', margin: '0 auto', padding: '2rem 1.75rem', position: 'relative', zIndex: 1 }}>
+          <div className="login-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0', borderRadius: '14px', overflow: 'hidden', border: `1px solid ${T.line}`, boxShadow: '0 40px 80px -20px rgba(0,0,0,.8)' }}>
             
-            {/* Left Panel - Branding */}
-            <div style={{
+            {/* Left Panel - Branding (hidden on mobile) */}
+            <div className="login-left" style={{
               background: `linear-gradient(135deg, ${T.bg2} 0%, ${T.bg0} 100%)`,
               padding: '3rem',
               display: 'flex',
@@ -279,30 +283,22 @@ function LoginPage() {
                 {/* Features */}
                 <div style={{ marginBottom: '2.5rem' }}>
                   {[
-                    [I.shield, 'AES-256 Encryption'],
-                    [I.users, 'Multi-Branch Access'],
-                    [I.cloud, 'Cloud Sync'],
-                    [I.log, 'Audit Logging'],
+                    ['🔒', 'AES-256 Encryption'],
+                    ['👥', 'Multi-Branch Access'],
+                    ['☁️', 'Cloud Sync'],
+                    ['📋', 'Audit Logging'],
                   ].map(([ic, label]) => (
                     <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '.65rem', marginBottom: '.75rem' }}>
-                      <span style={{ color: T.g }}>{ic}</span>
+                      <span style={{ fontSize: '1.1rem' }}>{ic}</span>
                       <span className="syne" style={{ fontSize: '.72rem', color: T.light, fontWeight: 500, letterSpacing: '.03em' }}>{label}</span>
                     </div>
                   ))}
                 </div>
-
-                {/* Time display */}
-                {currentTime && (
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '.5rem', background: T.ga, border: `1px solid rgba(4,200,0,.15)`, borderRadius: '8px', padding: '.5rem .85rem' }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={T.g} strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    <span className="syne" style={{ fontSize: '.62rem', color: T.g, fontWeight: 600, letterSpacing: '.05em' }}>{currentTime}</span>
-                  </div>
-                )}
               </div>
             </div>
 
             {/* Right Panel - Login Form */}
-            <div style={{
+            <div className="login-right" style={{
               background: T.bg3,
               padding: '3rem',
               display: 'flex',

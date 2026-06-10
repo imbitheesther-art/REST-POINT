@@ -750,81 +750,59 @@ export default function App() {
           </div>
         </section>
 
-        {/* ══════════════════════════════════════════════════════════
-            FOOTER
-        ══════════════════════════════════════════════════════════ */}
-        <footer className="foot">
-          <div className="wrap foot-inner">
+         {/* ══════════════════════════════════════════════════════════
+             FOOTER - Simplified & Clean
+         ══════════════════════════════════════════════════════════ */}
+         <footer className="foot">
+           <div className="wrap foot-inner">
 
-            {/* Top grid */}
-            <div className="foot-top">
-              {/* Brand col */}
-              <div>
-                <div style={{display:'flex',alignItems:'center',gap:'.5rem',marginBottom:'.75rem'}}>
-                  <div style={{width:'6px',height:'6px',borderRadius:'50%',background:T.g,boxShadow:`0 0 8px ${T.g}`}} />
-                  <span className="syne" style={{fontSize:'.78rem',fontWeight:800,color:T.white,letterSpacing:'.14em'}}>REST POINT</span>
-                </div>
-                <p style={{fontSize:'.72rem',color:T.sub,lineHeight:1.7,maxWidth:'220px',marginBottom:'1rem'}}>The complete mortuary operating system, built for East Africa.</p>
-                <div className="vtag">v2cloud.2026.RP</div>
-              </div>
+             {/* Top grid - simplified to 2 columns */}
+             <div className="foot-top" style={{display:'grid',gridTemplateColumns:'1.5fr 1fr',gap:'2rem',paddingBottom:'2.5rem'}}>
+               {/* Brand col */}
+               <div>
+                 <div style={{display:'flex',alignItems:'center',gap:'.5rem',marginBottom:'.75rem'}}>
+                   <div style={{width:'6px',height:'6px',borderRadius:'50%',background:T.g,boxShadow:`0 0 8px ${T.g}`}} />
+                   <span className="syne" style={{fontSize:'.78rem',fontWeight:800,color:T.white,letterSpacing:'.14em'}}>REST POINT</span>
+                 </div>
+                 <p style={{fontSize:'.72rem',color:T.sub,lineHeight:1.7,maxWidth:'280px',marginBottom:'1rem'}}>The complete mortuary operating system, built for East Africa.</p>
+                 <div className="vtag">v2cloud.2026.RP</div>
+               </div>
 
-              {/* Product col */}
-              <div>
-                <div className="syne" style={{fontSize:'.58rem',color:T.muted,letterSpacing:'.14em',textTransform:'uppercase',marginBottom:'1rem'}}>Product</div>
-                {['Features','Family Portal','Marketplace','Pricing','API Docs'].map(l => (
-                  <div key={l} style={{fontSize:'.73rem',color:T.sub,marginBottom:'.55rem',cursor:'pointer',transition:'color .18s'}} onMouseEnter={e=>e.target.style.color=T.g} onMouseLeave={e=>e.target.style.color=T.sub}>{l}</div>
-                ))}
-              </div>
+               {/* Quick links */}
+               <div style={{display:'flex',gap:'3rem',flexWrap:'wrap'}}>
+                 <div>
+                   <div className="syne" style={{fontSize:'.58rem',color:T.muted,letterSpacing:'.14em',textTransform:'uppercase',marginBottom:'.8rem'}}>Product</div>
+                   {['Features','Pricing','Portal'].map(l => (
+                     <div key={l} style={{fontSize:'.73rem',color:T.sub,marginBottom:'.5rem',cursor:'pointer',transition:'color .18s'}} onMouseEnter={e=>e.target.style.color=T.g} onMouseLeave={e=>e.target.style.color=T.sub}>{l}</div>
+                   ))}
+                 </div>
+                 <div>
+                   <div className="syne" style={{fontSize:'.58rem',color:T.muted,letterSpacing:'.14em',textTransform:'uppercase',marginBottom:'.8rem'}}>Company</div>
+                   {['About','Contact','Support'].map(l => (
+                     <div key={l} style={{fontSize:'.73rem',color:T.sub,marginBottom:'.5rem',cursor:'pointer',transition:'color .18s'}} onMouseEnter={e=>e.target.style.color=T.g} onMouseLeave={e=>e.target.style.color=T.sub}>{l}</div>
+                   ))}
+                 </div>
+                 <div>
+                   <div className="syne" style={{fontSize:'.58rem',color:T.muted,letterSpacing:'.14em',textTransform:'uppercase',marginBottom:'.8rem'}}>Legal</div>
+                   {['Privacy','Terms'].map(l => (
+                     <div key={l} style={{fontSize:'.73rem',color:T.sub,marginBottom:'.5rem',cursor:'pointer',transition:'color .18s'}} onMouseEnter={e=>e.target.style.color=T.g} onMouseLeave={e=>e.target.style.color=T.sub}>{l}</div>
+                   ))}
+                 </div>
+               </div>
+             </div>
 
-              {/* Company col */}
-              <div>
-                <div className="syne" style={{fontSize:'.58rem',color:T.muted,letterSpacing:'.14em',textTransform:'uppercase',marginBottom:'1rem'}}>Company</div>
-                {['About','Blog','Careers','Press','Contact'].map(l => (
-                  <div key={l} style={{fontSize:'.73rem',color:T.sub,marginBottom:'.55rem',cursor:'pointer',transition:'color .18s'}} onMouseEnter={e=>e.target.style.color=T.g} onMouseLeave={e=>e.target.style.color=T.sub}>{l}</div>
-                ))}
-              </div>
+             {/* Bottom bar */}
+             <div className="foot-bot">
+               <div style={{fontSize:'.65rem',color:T.sub}}>© {new Date().getFullYear()} Rest Point. All rights reserved.</div>
+               <div className="foot-links" style={{display:'flex',gap:'1.25rem',flexWrap:'wrap'}}>
+                 {['Privacy','Terms','Support'].map(l=>(
+                   <span key={l} className="fl">{l}</span>
+                 ))}
+               </div>
+             </div>
 
-              {/* Legal col */}
-              <div>
-                <div className="syne" style={{fontSize:'.58rem',color:T.muted,letterSpacing:'.14em',textTransform:'uppercase',marginBottom:'1rem'}}>Legal</div>
-                {['Privacy Policy','Terms of Service','Security','Cookie Policy','GDPR'].map(l => (
-                  <div key={l} style={{fontSize:'.73rem',color:T.sub,marginBottom:'.55rem',cursor:'pointer',transition:'color .18s'}} onMouseEnter={e=>e.target.style.color=T.g} onMouseLeave={e=>e.target.style.color=T.sub}>{l}</div>
-                ))}
-              </div>
-            </div>
-
-            {/* Trust strip */}
-            <div className="foot-trust">
-              {[
-                [I.lock,  'AES-256 Encryption','At rest & in transit'],
-                [I.db,    'Daily Backups','Point-in-time recovery'],
-                [I.cloud, 'Contabo Cloud','Multi-region enterprise'],
-                [I.shield,'Cloudflare DDoS','Enterprise protection'],
-                [I.users, 'Tenant Isolation','DB per tenant'],
-                [I.log,   'Audit Logging','Immutable records'],
-              ].map(([ic,v,sub]) => (
-                <div key={v} className="fti">
-                  <div className="fti-ic">{ic}</div>
-                  <div>
-                    <div className="syne" style={{fontSize:'.62rem',fontWeight:700,color:T.light,letterSpacing:'.03em'}}>{v}</div>
-                    <div style={{fontSize:'.58rem',color:T.muted,marginTop:'.1rem'}}>{sub}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Bottom bar */}
-            <div className="foot-bot">
-              <div style={{fontSize:'.65rem',color:T.sub}}>© {new Date().getFullYear()} Rest Point. All rights reserved. We own infrastructure · You own data.</div>
-              <div className="foot-links">
-                {['Privacy','Terms','Security','Support'].map(l=>(
-                  <span key={l} className="fl">{l}</span>
-                ))}
-              </div>
-            </div>
-
-          </div>
-        </footer>
+           </div>
+         </footer>
 
       </main>
     </>

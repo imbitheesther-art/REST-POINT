@@ -129,4 +129,70 @@ export const authApi = {
     const token = localStorage.getItem('authToken') || localStorage.getItem('token');
     return !!token && token !== 'undefined' && token !== 'null';
   },
+
+  /**
+   * Portal Login — POST /api/v1/restpoint/portal/login
+   * Accepts phone number of next of kin
+   * Returns: { success, sessionToken, tenantSlug, deceased }
+   * 
+   * The backend will:
+   * 1. Search all tenants for a deceased with next of kin matching this phone
+   * 2. Return the tenant slug and deceased info
+   * 3. Create a session token for portal access
+   */
+  portalLogin: async ({ phone }) => {
+    // Remove tenant slug header for portal login (we need to discover the tenant)
+    const previousTenantSlug = api.defaults.headers.common['x-tenant-slug'];
+    delete api.defaults.headers.common['x-tenant-slug'];
+    
+    try {
+      const response = await api.post(ENDPOINTS.PORTAL.LOGIN, { 
+        phone: phone.trim()
+      });
+      
+      const data = response.data;
+      
+      if (data?.success && data?.tenantSlug) {
+        // Store portal session data
+        localStorage.setItem('sessionToken', data.sessionToken || data.session_token);
+        localStorage.setItem('tenantSlug', data.tenantSlug);
+        
+        if (data.deceased) {
+          localStorage.setItem('deceased', JSON.stringify(data.deceased));
+          localStorage.setItem('deceasedId', data.deceased.deceased_id);
+        }
+        
+        // Set tenant context for subsequent requests
+        api.defaults.headers.common['x-tenant-slug'] = data.tenantSlug;
+      }
+      
+      return data;
+    } catch (error) {
+      // Restore previous tenant slug on error
+      if (previousTenantSlug) {
+        api.defaults.headers.common['x-tenant-slug'] = previousTenantSlug;
+      }
+      throw error;
+    }
+  },
+
+  /**
+   * Portal Logout — clear portal session
+   */
+  portalLogout: () => {
+    localStorage.removeItem('sessionToken');
+    localStorage.removeItem('deceased');
+    localStorage.removeItem('deceasedId');
+    delete api.defaults.headers.common['x-tenant-slug'];
+    return { success: true };
+  },
+
+  /**
+   * Get portal deceased info — GET /api/v1/restpoint/portal/deceased/:deceasedId
+   */
+  getPortalDeceased: async (deceasedId, tenantSlug) => {
+    api.defaults.headers.common['x-tenant-slug'] = tenantSlug;
+    const response = await api.get(`${ENDPOINTS.PORTAL.DECEASED}/${deceasedId}`);
+    return response.data;
+  },
 };

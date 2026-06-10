@@ -23,20 +23,23 @@ import {
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Colors } from '../../theme/colors';
 
-// Theme colors from system
+// Theme colors from system - Updated for better look
 const theme = {
-  primary: Colors.primary,      // #000000 - Dark blue-gray
-  secondary: Colors.secondary,  // #000000 - Slightly lighter
-  accent: Colors.accent,        // #000000 - Bright blue
-  background: Colors.background, // #F8F9FA
-  surface: Colors.surface,      // #FFFFFF
-  textPrimary: Colors.textPrimary,
-  textSecondary: Colors.textSecondary,
-  textMuted: Colors.textMuted,
-  border: Colors.border,
-  hover: 'rgba(52, 152, 219, 0.1)', // Light accent hover
-  activeBg: Colors.primary,
-  activeText: '#FFFFFF'
+  primary: '#ffffff',           // Darker background
+  secondary: '#111111',         // Slightly lighter
+  accent: '#000000',            // Green accent (Rest Point brand)
+  accentLight: 'rgba(4, 200, 0, 0.1)',
+  accentLighter: 'rgba(4, 200, 0, 0.05)',
+  background: '#0f0f0f',
+  surface: '#1a1a1a',
+  textPrimary: '#f5f5f5',
+  textSecondary: '#a0a0a0',
+  textMuted: '#666666',
+  border: '#222222',
+  borderLight: '#2a2a2a',
+  hover: 'rgba(4, 200, 0, 0.08)',
+  activeBg: 'rgba(4, 200, 0, 0.15)',
+  activeText: '#ffffff'
 };
 
 const SidebarContainer = styled.aside`
